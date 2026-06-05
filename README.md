@@ -29,13 +29,10 @@ A high-performance, configurable SNI (Server Name Indication) spoofing tool desi
 - **Multi-Protocol Support:** Supports TCP, UDP, and custom protocol wrappers.
 - **Logging & Debugging:** Comprehensive logging for network traffic analysis.
 - **Lightweight & Fast:** Built for low-latency operations with minimal overhead.
-- **Configurable Payloads:** Customizable headers and handshake parameters.
+- **Configurable Payloads:** Customizable headers.
 
 ## 🏗️ Architecture
 
-The tool operates at the application layer, intercepting or constructing TLS ClientHello messages. It modifies the `server_name` extension before sending the packet to the target server.
-
-```mermaid
 graph TD
     A[User Input] --> B[SNI Spoofing Engine]
     B --> C{TLS Handshake}

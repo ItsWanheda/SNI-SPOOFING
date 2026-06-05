@@ -1,11 +1,10 @@
 # SNI-Spoofing
 
-Bypass DPI with IP/TCP-Header manipulation
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
 
+Bypass DPI with IP/TCP-Header manipulation
 A high-performance, configurable SNI (Server Name Indication) spoofing tool designed for network analysis, privacy testing, and educational purposes. This tool allows users to manipulate the TLS handshake process to mask the true destination of network traffic.
 
 > **⚠️ Disclaimer:** This tool is intended for **authorized security testing, educational research, and privacy protection only**. Unauthorized use of SNI spoofing to bypass security controls or access restricted networks without explicit permission is illegal and unethical. Use at your own risk.

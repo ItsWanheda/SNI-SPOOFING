@@ -1,25 +1,22 @@
+# Network.py
 import socket
 
-
-def get_default_interface_ipv4(addr="8.8.8.8") -> str:
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+def get_default_interface_ip(target_ip: str) -> str:
+    """
+    Returns the default interface IP (IPv4 or IPv6) based on the target address.
+    """
     try:
-        s.connect((addr, 53))
+        # Determine if target is IPv4 or IPv6 to set socket family
+        if ':' in target_ip:
+            family = socket.AF_INET6
+        else:
+            family = socket.AF_INET
+            
+        s = socket.socket(family, socket.SOCK_DGRAM)
+        s.connect((target_ip, 53))
+        ip = s.getsockname()[0]
     except OSError:
         return ""
-    else:
-        return s.getsockname()[0]
     finally:
         s.close()
-
-
-def get_default_interface_ipv6(addr="2001:4860:4860::8888") -> str:
-    s = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
-    try:
-        s.connect((addr, 53))
-    except OSError:
-        return ""
-    else:
-        return s.getsockname()[0]
-    finally:
-        s.close()
+    return ip

@@ -21,14 +21,14 @@ A high-performance, configurable SNI (Server Name Indication) spoofing tool desi
 - [Contributing](#-contributing)
 - [License](#-license)
 
-## ✨ Features
+## Features
 
-- **Dynamic SNI Manipulation:** Easily override the SNI field in the ClientHello packet.
-- **Certificate Validation Control:** Option to disable or enforce strict SSL/TLS certificate verification.
-- **Multi-Protocol Support:** Supports TCP, UDP, and custom protocol wrappers.
-- **Logging & Debugging:** Comprehensive logging for network traffic analysis.
-- **Lightweight & Fast:** Built for low-latency operations with minimal overhead.
-- **Configurable Payloads:** Customizable headers.
+- **Dynamic SNI Rotation:** Randomly selects SNI from a configurable list for each connection to avoid fingerprinting.
+- **Multi-Protocol Support:** Supports both IPv4 and IPv6.
+- **TLS 1.2 & 1.3 Compatibility:** Generates realistic TLS ClientHello packets with proper extensions (Key Share, Supported Groups, etc.).
+- **Robust Error Handling:** Includes retry logic for remote connections and graceful shutdown handling.
+- **Thread-Safe Packet Injection:** Uses `pydivert` to manipulate packets at the network stack level with thread-safe state management.
+- **Configurable:** All settings (listen port, target IP, SNI list, TLS version) are managed via `config.json`.
 
 ## 🏗️ Architecture
 
@@ -41,21 +41,48 @@ graph TD
     E --> F[Output/Logging]
 
 ## 📦 Prerequisites
-- Python 3.8+
-OpenSSL (system dependency)
-Root/Administrator Privileges (required for raw socket manipulation, if applicable)
-🛠️ Installation & Setup
-    1. Clone the Repository
-        git clone https://github.com/[Wanheda7737]/SNI-SPOOFING.git
-        cd SNI-SPOOFING
-    2. Create a Virtual Environment (Recommended)
-        python -m venv venv
-        source venv/bin/activate  # On Windows: venv\Scripts\activate
-    3. Install Dependencies
-        pip install -r requirements.txt
-    4. Verify Installation
-        python SNI.py --version
+- **Python 3.8+**
+- **Windows OS** (Required for `pydivert` to function correctly with the current implementation).
+- **Administrator Privileges** (Required to run the script, as it needs to hook into the network stack).
 
+### Installation
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    cd <repository-directory>
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    pip install pydivert
+    ```
+
+3.  **Configure the proxy:**
+    Edit the `config.json` file to set your desired parameters:
+    ```json
+    {
+        "LISTEN_HOST": "127.0.0.1",
+        "LISTEN_PORT": 1080,
+        "CONNECT_IP": "1.2.3.4",
+        "CONNECT_PORT": 443,
+        "SNI_LIST": ["www.google.com", "www.youtube.com"],
+        "TLS_VERSION": "1.3",
+        "MAX_RETRIES": 3,
+        "RETRY_DELAY": 2
+    }
+    ```
+    - `LISTEN_HOST/PORT`: The local address where clients will connect.
+    - `CONNECT_IP/PORT`: The target server address to forward traffic to.
+    - `SNI_LIST`: A list of fake SNIs to rotate through.
+    - `TLS_VERSION`: Either "1.2" or "1.3".
+
+### Running the Proxy
+
+Run the script with **Administrator privileges**:
+
+```bash
+python SNI.py
+```
 ## 🚀 Usage
 Basic Example
     Spoof the SNI to example.com while connecting to IP 192.168.1.1:
@@ -89,6 +116,11 @@ Contributions are welcome! Please follow these steps:
 This project is licensed under the GNU GENERAL PUBLIC LICENSE - see the LICENSE file for details.
 
 ## 📞 Contact
-GitHub: [https://github.com/Wanheda7737]
+GitHub: [https://github.com/ItsWanheda]
 Email: Wanheda.work@gmail.com
 Project Maintainer: ItsWanheda
+
+Disclaimer
+```
+This tool is intended for educational and legitimate privacy purposes only. Users are responsible for complying with all applicable laws and regulations in their jurisdiction. Misuse of this tool to bypass security measures or access unauthorized resources is strictly prohibited.
+```

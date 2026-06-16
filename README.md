@@ -31,7 +31,7 @@ A high-performance, configurable SNI (Server Name Indication) spoofing tool desi
 - **Configurable:** All settings (listen port, target IP, SNI list, TLS version) are managed via `config.json`.
 
 ## 🏗️ Architecture
-
+```text
 graph TD
     A[User Input] --> B[SNI Spoofing Engine]
     B --> C{TLS Handshake}
@@ -39,6 +39,7 @@ graph TD
     D -->|ServerHello| C
     C --> E[Data Exchange]
     E --> F[Output/Logging]
+```
 
 ## 📦 Prerequisites
 - **Python 3.8+**

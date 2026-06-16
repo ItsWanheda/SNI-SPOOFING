@@ -1,42 +1,47 @@
 # Security Policy
 
-We take the security of Spectra Scan and its users seriously. We follow industry best practices for responsible disclosure to ensure that vulnerabilities are identified, validated, and patched before they can be exploited.
-
-## Reporting Vulnerabilities
-
-If you believe you have discovered a security vulnerability in Spectra Scan, **please do not report it publicly via GitHub Issues.**
-
-Instead, please send an email to:
-**[wanheda.work@gmail.com]**
-
-### What to include in your report:
-- **Summary:** A concise description of the vulnerability.
-- **Description:** A detailed explanation of the issue.
-- **Impact:** What can an attacker do with this?
-- **Reproduction Steps:** A clear, step-by-step guide to reproduce the issue (including any necessary code snippets or environment details).
-- **Environment:** OS, Go version, and the version of Spectra Scan you are using.
-
-We will acknowledge receipt of your report within [e.g., 48 hours] and will work with you to understand and mitigate the issue.
-
-## Supported Versions
-
-We only provide security updates for the latest stable release of Spectra Scan. If you are using an older version, we strongly recommend upgrading.
-
-| Version | Supported |
-| :--- | :--- |
-| 1.0.x | Yes |
-| < 1.0.0 | No |
-
-## Disclosure Policy
-
-- We prioritize the privacy and security of our users. 
-- We request that you give us a reasonable amount of time to investigate and fix the vulnerability before making any details public. 
-- We do not have a formal bug bounty program, but we will credit security researchers who responsibly report vulnerabilities in our documentation or release notes.
-
-## What is NOT a Security Vulnerability?
-- Issues that are already known and documented in the tracker.
-- Feature requests or non-security bugs.
-- Issues related to third-party software or libraries (please report these to the maintainers of the respective projects).
+> **Security is not a feature, it's a foundation.** 🛡️
 
 ---
-*Thank you for helping us keep Spectra Scan secure and reliable!*
+
+## 🔒 Supported Versions
+
+We maintain strict version control to ensure security patches are delivered effectively.
+
+| Version | Supported | Status |
+| :--- | :---: | :--- |
+| **1.0.x** | ✅ | Active |
+
+---
+
+## 🚨 Reporting a Vulnerability
+
+We prioritize the security of our infrastructure and users above all else. If you believe you have discovered a vulnerability, we request that you **disclose it responsibly** by following our private disclosure process.
+
+### ⚠️ Guidelines
+- **DO NOT** open a public issue, pull request, or discussion regarding a potential vulnerability.
+- **DO NOT** exploit the vulnerability on live systems.
+- **DO NOT** share details of the exploit with third parties until a patch is released.
+
+### 📧 Disclosure Process
+Please report all findings directly via email:
+
+**[wanheda.work@gmail.com](mailto:wanheda.work@gmail.com)**
+
+*To ensure we handle your report efficiently, please include:*
+* **Proof of Concept (PoC)** or detailed reproduction steps
+* **Impact Analysis**
+* **Suggested Remediation** (optional)
+
+---
+
+## ⏱️ Response SLA
+
+We treat security reports as high-priority incidents. You can expect the following response timeline:
+
+1.  **Acknowledgment**: Within **48 hours** of initial receipt.
+2.  **Analysis & Feedback**: Within **72 hours**, we will provide an initial assessment and our plan for remediation.
+
+---
+*Thank you for helping keep this project secure for everyone.*
+---

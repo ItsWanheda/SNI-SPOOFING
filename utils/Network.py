@@ -1,22 +1,30 @@
 # Network.py
 import socket
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 def get_default_interface_ip(target_ip: str) -> str:
-    """
-    Returns the default interface IP (IPv4 or IPv6) based on the target address.
-    """
+    """Return the local outbound interface IP used to reach ``target_ip``."""
+    if not target_ip:
+        return ""
+    family = socket.AF_INET6 if ':' in target_ip else socket.AF_INET
+    s = None
     try:
-        # Determine if target is IPv4 or IPv6 to set socket family
-        if ':' in target_ip:
-            family = socket.AF_INET6
-        else:
-            family = socket.AF_INET
-            
         s = socket.socket(family, socket.SOCK_DGRAM)
+        # Connecting a UDP socket does not send packets; the kernel just picks a route.
         s.connect((target_ip, 53))
-        ip = s.getsockname()[0]
-    except OSError:
+        return s.getsockname()
+    except OSError as e:
+        logger.debug(f"get_default_interface_ip failed for {target_ip!r}: {e}")
+        return ""
+    except Exception:
+        logger.exception(f"Unexpected error in get_default_interface_ip({target_ip!r})")
         return ""
     finally:
-        s.close()
-    return ip
+        if s is not None:
+            try:
+                s.close()
+            except OSError:
+                pass

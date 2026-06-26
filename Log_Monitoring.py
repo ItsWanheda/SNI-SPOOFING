@@ -1,8 +1,16 @@
 # Log_Monitoring.py
-import uuid
 import threading
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class MonitorConnection:
+    """Per-connection state shared between the pydivert thread and the asyncio loop.
+
+    All mutable state must be accessed under ``thread_lock`` when crossing threads.
+    """
+
     def __init__(self, sock, src_ip, dst_ip, src_port, dst_port):
         self.id = (src_ip, src_port, dst_ip, dst_port)
         self.sock = sock

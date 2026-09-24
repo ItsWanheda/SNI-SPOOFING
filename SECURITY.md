@@ -1,47 +1,44 @@
 # Security Policy
 
-> **Security is not a feature, it's a foundation.** 🛡️
+Security issues are treated separately from ordinary bug reports.
 
----
+## Supported Versions
 
-## 🔒 Supported Versions
+The actively maintained code is the current `main` branch.
 
-We maintain strict version control to ensure security patches are delivered effectively.
+| Version / Branch | Supported |
+| --- | :---: |
+| `main` | ✅ |
 
-| Version | Supported | Status |
-| :--- | :---: | :--- |
-| **1.0.x** | ✅ | Active |
+Older commits or unreleased historical versions are not guaranteed to receive security fixes.
 
----
+## Reporting a Vulnerability
 
-## 🚨 Reporting a Vulnerability
+Please **do not** disclose an exploitable vulnerability through a public issue, pull request, or discussion.
 
-We prioritize the security of our infrastructure and users above all else. If you believe you have discovered a vulnerability, we request that you **disclose it responsibly** by following our private disclosure process.
-
-### ⚠️ Guidelines
-- **DO NOT** open a public issue, pull request, or discussion regarding a potential vulnerability.
-- **DO NOT** exploit the vulnerability on live systems.
-- **DO NOT** share details of the exploit with third parties until a patch is released.
-
-### 📧 Disclosure Process
-Please report all findings directly via email:
+Report security issues privately by email:
 
 **[wanheda.work@gmail.com](mailto:wanheda.work@gmail.com)**
 
-*To ensure we handle your report efficiently, please include:*
-* **Proof of Concept (PoC)** or detailed reproduction steps
-* **Impact Analysis**
-* **Suggested Remediation** (optional)
+Include, where possible:
 
----
+- A concise description of the issue.
+- Affected file, component, or version/commit.
+- Reproduction steps or a minimal proof of concept.
+- Security impact.
+- Suggested remediation, if known.
 
-## ⏱️ Response SLA
+Please avoid including credentials, private keys, personal data, or traffic captures containing sensitive information.
 
-We treat security reports as high-priority incidents. You can expect the following response timeline:
+## Response Targets
 
-1.  **Acknowledgment**: Within **48 hours** of initial receipt.
-2.  **Analysis & Feedback**: Within **72 hours**, we will provide an initial assessment and our plan for remediation.
+The project aims to:
 
----
-*Thank you for helping keep this project secure for everyone.*
----
+1. Acknowledge reports within **48 hours**.
+2. Provide an initial assessment within **72 hours** when enough information is available.
+
+These are response targets, not guaranteed service-level agreements.
+
+## Safe Testing
+
+Only test this project on systems and networks you own or are explicitly authorized to assess.

@@ -72,12 +72,13 @@ class ClientHelloMaker:
             raise ValueError(f"unexpected ClientHello length {len(client_hello_bytes)}")
         rnd = client_hello_bytes[11:43]
         sess_id = client_hello_bytes[44:76]
-        sni_len = struct.unpack("!H", client_hello_bytes[125:127])
+        (sni_len,) = struct.unpack("!H", client_hello_bytes[125:127])
         tls_sni = client_hello_bytes[127:127 + sni_len].decode("ascii", errors="replace")
         ks_ind = 262 + len(tls_sni)
         key_share = client_hello_bytes[ks_ind:ks_ind + 32]
         rebuilt = cls.get_client_hello_with(rnd, sess_id, tls_sni.encode("ascii"), key_share)
-        assert rebuilt == client_hello_bytes, "ClientHello parse/rebuild mismatch"
+        if rebuilt != client_hello_bytes:
+            raise ValueError("ClientHello parse/rebuild mismatch")
         return rnd, sess_id, tls_sni, key_share
 
     @classmethod
@@ -95,7 +96,8 @@ class ClientHelloMaker:
             raise ValueError("response too short")
         app_data1 = client_response_bytes[11:]
         rebuilt = cls.get_client_response_with(app_data1)
-        assert rebuilt == client_response_bytes, "response parse/rebuild mismatch"
+        if rebuilt != client_response_bytes:
+            raise ValueError("response parse/rebuild mismatch")
         return app_data1
 
 
@@ -134,5 +136,6 @@ class ServerHelloMaker:
         key_share = server_hello_bytes[95:127]
         app_data1 = server_hello_bytes[138:]
         rebuilt = cls.get_server_hello_with(rnd, sess_id, key_share, app_data1)
-        assert rebuilt == server_hello_bytes, "server hello parse/rebuild mismatch"
+        if rebuilt != server_hello_bytes:
+            raise ValueError("server hello parse/rebuild mismatch")
         return rnd, sess_id, key_share, app_data1

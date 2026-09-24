@@ -1,48 +1,64 @@
-# Contributing to Spectra Scan
+# Contributing to SNI-Spoofing
 
-Welcome to Spectra Scan! We are thrilled that you're interested in contributing to our mission of building a professional, Go-based network security research tool.
+Thank you for contributing to **SNI-Spoofing**.
 
-By contributing to this project, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md).
+This project is a Windows-focused networking research tool. Contributions should prioritize correctness, maintainability, testability, and safe use.
 
-## How to Contribute
+## Before You Start
 
-### 1. Issues and Bug Reports
-- **Search first:** Before opening a new issue, check if it has already been reported.
-- **Use templates:** Use the provided issue templates for bugs, feature requests, or security discussions.
-- **Be clear:** Provide as much detail as possible (logs, Go version, OS, reproduction steps).
+1. Read the [README](README.md) and [Security Policy](SECURITY.md).
+2. Search existing issues and pull requests before opening a new one.
+3. Keep changes focused. Avoid unrelated refactors in feature or bug-fix PRs.
+4. Never commit credentials, private keys, captured traffic, or personal data.
 
-### 2. Pull Requests
-We follow a standard professional workflow. All contributions must go through the Pull Request (PR) process.
+## Development Setup
 
-#### Development Workflow
-1. **Fork** the repository and create your feature branch: `git checkout -b feat/your-feature-name`.
-2. **Follow Go standards:**
-   - Run `go fmt ./...` before committing.
-   - Ensure all code passes `go vet` and `staticcheck`.
-3. **Tests are mandatory:**
-   - All new features and bug fixes **must** include unit tests.
-   - Run `go test ./...` to ensure no regressions.
-4. **Conventional Commits:** We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
-   - `feat:` for new features
-   - `fix:` for bug fixes
-   - `docs:` for changes to documentation
-   - `refactor:` for code changes that neither fix a bug nor add a feature
-   - `test:` for adding missing tests
+The supported development range is Python 3.10–3.12.
 
-#### Security-First Development
-Since Spectra Scan is a security tool, please adhere to these rules:
-- **No Hardcoded Secrets:** Never include API keys, passwords, or tokens in your code.
-- **Memory Safety:** When dealing with network buffers or raw packets, be mindful of potential buffer overflows.
-- **Input Validation:** Always sanitize inputs. If your feature handles user-provided URLs or IPs, ensure it is protected against **SSRF** and **Injection** attacks.
-- **No Malicious Payloads:** Do not include or suggest payloads that could be used for malicious exploitation in the codebase. We focus on detection and analysis.
+```powershell
+py -3.12 -m venv venv
+.\venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
 
-### 3. Review Process
-- Maintainers will review your code. We prioritize readability, maintainability, and security.
-- Be prepared to answer questions or make changes based on the review.
-- Once approved, your PR will be merged.
+## Tests
 
-### 4. License
-By submitting a pull request, you agree that your contributions will be licensed under the project's license (to be added).
+The repository uses Python's built-in `unittest` runner so the parser/configuration tests can run without the WinDivert driver:
 
----
-*Happy Hacking, and thank you for helping make the network safer!*
+```powershell
+python -m unittest discover -s tests -v
+```
+
+Changes to packet parsing, configuration validation, or connection lifecycle code should include regression tests where practical.
+
+The full runtime path depends on Windows and WinDivert, so local unit-test success does not by itself prove end-to-end packet interception works.
+
+## Pull Requests
+
+Please include:
+
+- A clear problem statement.
+- A short explanation of the implementation.
+- Tests added or updated, when applicable.
+- Documentation updates for user-visible behavior or configuration changes.
+- Any platform or privilege requirements.
+
+Use **Conventional Commits**, for example:
+
+```text
+fix: handle malformed ClientHello input
+test: add ClientHello round-trip coverage
+docs: update supported Python versions
+ci: add unit test workflow
+```
+
+## Security
+
+Do not publish sensitive vulnerability details in a normal issue or pull request. Follow [SECURITY.md](SECURITY.md) for private disclosure.
+
+Only use the project on systems and networks where you have authorization to test.
+
+## License
+
+By contributing, you agree that your contributions are provided under the repository's MIT License.

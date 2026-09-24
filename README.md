@@ -99,7 +99,7 @@
                      └─────────────────────────────┼──────────┘
                                                    │
                                           ┌────────▼─────────┐
-                                          │  WinDivert 1.4   │
+                                          │  WinDivert 2.2.x   │
                                           │  (kernel driver) │
                                           └──────────────────┘
 ```
@@ -120,7 +120,7 @@
 | Requirement    | Notes                                                                    |
 | -------------- | ------------------------------------------------------------------------ |
 | **OS**         | Windows 10/11 — WinDivert is Windows-only                                |
-| **Python**     | **3.8–3.12** — `pydivert` 2.x has no wheel for Python 3.13/3.14          |
+| **Python**     | **3.10–3.12** — this repository currently targets the PyDivert 3.x API          |
 | **Privileges** | **Administrator** access is required to load the WinDivert kernel driver |
 | **Antivirus**  | You may need an exclusion for the `pydivert` directory and `python.exe`  |
 
@@ -151,7 +151,7 @@ py -3.12 -m venv venv
 pip install --upgrade pip
 
 # Install dependencies
-pip install pydivert
+pip install -r requirements.txt
 ```
 
 ### 3. Configure `config.json`
@@ -171,7 +171,7 @@ Open **PowerShell as Administrator** and run:
 $divertPath = python -c "import pydivert, os; print(os.path.dirname(pydivert.__file__))"
 
 Add-MpPreference -ExclusionPath $divertPath
-Add-MpPreference -ExclusionPath "C:\Windows\System32\drivers\WinDivert1.4.sys"
+Add-MpPreference -ExclusionPath "C:\Windows\System32\drivers\WinDivert2.2.sys"
 Add-MpPreference -ExclusionProcess "python.exe"
 Add-MpPreference -ExclusionProcess "py.exe"
 ```
@@ -271,6 +271,28 @@ The proxy will:
 * Tear down active injectors.
 * Cancel in-flight relay tasks.
 * Exit cleanly.
+
+---
+
+## 🧪 Testing
+
+The unit-test suite is intentionally runnable without the WinDivert kernel driver:
+
+```powershell
+python -m unittest discover -s tests -v
+```
+
+The tests currently cover:
+
+- ClientHello construction and parse/rebuild round trips.
+- ClientHello input validation.
+- Client response round trips.
+- ServerHello construction and parse/rebuild round trips.
+- Basic `config.json` structure and port validation.
+
+GitHub Actions runs the unit tests on Python 3.10, 3.11, and 3.12.
+
+> **Important:** Passing the unit tests does not mean the full packet-interception path has been validated. End-to-end testing requires a supported Windows environment and WinDivert.
 
 ---
 
